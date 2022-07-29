@@ -10,6 +10,17 @@ type SetOpt func(p *parser)
 func SetIdent(ident string) SetOpt {
 	return func(p *parser) {
 		p.tagOpt.IdentTag = ident
+		switch ident {
+		case JSON:
+			p.encoder = JSONEncoder
+			p.decoder = JSONDecoder
+		case YAML:
+			p.encoder = YAMLEncoder
+			p.decoder = YAMLDecoder
+		case TOML:
+			p.encoder = TOMLEncoder
+			p.decoder = TOMLDecoder
+		}
 	}
 }
 

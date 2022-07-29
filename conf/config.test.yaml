@@ -67,16 +67,17 @@
     "127.0.0.1"
   ],
   "logMap": {
-    "app1": {
+    "ap2": {
+      "name": "appLog",
+      "output": null
+    },
+    "app": {
       "name": "appLog",
       "output": [
         "stdio"
       ]
     },
-    "ap2": {
-      "name": "appLog"
-    },
-    "app": {
+    "app1": {
       "name": "appLog",
       "output": [
         "stdio"

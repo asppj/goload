@@ -6,10 +6,10 @@ type CommonConf struct {
 }
 
 type LocalConf struct {
-	L       interface{}       `json:"log" desc:"日志" default:"0,1,2,3" option:"default"`
-	Log     []Logger          `json:"logMap2" desc:"日志" default:"0,1,2,3" option:"default"`
-	Log2    []*Logger         `json:"logMap3" desc:"日志" default:"0,1,2,3" option:"default"`
-	WhiteIP []string          `json:"whiteIP" desc:"白名单" default:"127.0.0.1,10.0.0.1,127.0.0.1" option:"0,1,2,3"`
+	L       []Logger          `json:"l" desc:"日志" default:"0,1,2,3" option:"default"`
+	Log     []Logger          `json:"log_Map2" desc:"日志" default:"0,1,2,3" option:"default"`
+	Log2    []*Logger         `json:"log_Map3" desc:"日志" default:"0,1,2,3" option:"default"`
+	WhiteIP []string          `json:"white_IP" desc:"白名单" default:"127.0.0.1,10.0.0.1,127.0.0.1" option:"0,1,2,3"`
 	LogMap  map[string]Logger `json:"logMap" desc:"日志" default:"default,app,server" option:"default"`
 	cfgFile string            `default:"cfgFile" option:"" valid:"required"   desc:"配置文件地址"` // 不支持这种不可导出字段
 	CommonConf
@@ -26,5 +26,6 @@ type Redis struct {
 
 type Logger struct {
 	Name   string   `json:"name,omitempty" default:"appLog"`
+	Level  string   `json:"level" default:"debug"`
 	Output []string `json:"output" default:"stdio" option:"stdio,file://**,es://**,vector://**" desc:"日志输出路径"`
 }

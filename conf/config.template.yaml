@@ -2,34 +2,40 @@
   "l": [
     {
       "name": "l1",
+      "level": "",
       "output": null
     },
     {
       "name": "l2",
+      "level": "",
       "output": null
     }
   ],
   "log_Map2": [
     {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
     },
     {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
     },
     {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
     },
     {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
@@ -38,24 +44,28 @@
   "log_Map3": [
     {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
     },
     {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
     },
     {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
     },
     {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
@@ -67,29 +77,23 @@
     "127.0.0.1"
   ],
   "logMap": {
-    "app1": {
-      "name": "appLog",
-      "output": [
-        "stdio"
-      ]
-    },
-    "ap2": {
-      "name": "appLog"
-    },
     "app": {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
     },
     "default": {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
     },
     "server": {
       "name": "appLog",
+      "level": "debug",
       "output": [
         "stdio"
       ]
