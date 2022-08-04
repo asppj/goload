@@ -10,7 +10,7 @@ import (
 )
 
 type TagOption struct {
-	fullTag  string
+	fullTag  reflect.StructTag
 	TagName  string
 	TagValue *string
 }
@@ -30,13 +30,13 @@ func (t *TagOption) parseFromField(field reflect.StructField) *TagOption {
 	value, ok := field.Tag.Lookup(t.TagName)
 	if ok {
 		return &TagOption{
-			fullTag:  value,
+			fullTag:  field.Tag,
 			TagName:  t.TagName,
 			TagValue: &value,
 		}
 	}
 	return &TagOption{
-		fullTag:  value,
+		fullTag:  field.Tag,
 		TagName:  t.TagName,
 		TagValue: nil,
 	}
