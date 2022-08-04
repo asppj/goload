@@ -15,3 +15,12 @@ func TestLoader(t *testing.T) {
 	}
 	t.Log("success")
 }
+
+func TestRedis(t *testing.T) {
+	c := conf.Redis{DB: 4}
+	if err := LoadStruct(&c, "default"); err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("%+v", c)
+	t.Log("success")
+}
