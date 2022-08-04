@@ -1,9 +1,10 @@
 package parse
 
 import (
-	"goload/conf"
 	"io/ioutil"
 	"testing"
+
+	"github.com/asppj/goload/conf"
 )
 
 const (
@@ -13,16 +14,18 @@ const (
 )
 
 func TestParserStruct(t *testing.T) {
-	c := conf.LocalConf{L: []conf.Logger{
-		{
-			Name:   "l1",
-			Output: nil,
-		},
-		{
-			Name:   "l2",
-			Output: nil,
-		},
-	}}
+	// a, b := "l1", "l2"
+	// c := conf.LocalConf{L: []conf.Logger{
+	// 	{
+	// 		Name:   &a,
+	// 		Output: nil,
+	// 	},
+	// 	{
+	// 		Name:   &b,
+	// 		Output: nil,
+	// 	},
+	// }}
+	c := conf.LocalConf{}
 	p := NewParser(
 		SetIdent(JSON),
 		SetValidTag(ValidTag),

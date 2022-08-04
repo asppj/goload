@@ -11,11 +11,11 @@ import (
 )
 
 type parser struct {
-	logger          *log.Logger
-	tagOpt          *TagOption
-	source          interface{}
-	fields          []*parseField
-	allFields       []*parseField
+	logger *log.Logger
+	tagOpt *TagOption
+	source interface{}
+	// fields          []*parseField
+	// allFields       []*parseField
 	anonymousFields []*parseField // 匿名嵌套结构体
 	encoder         MarshalFunc
 	decoder         UnmarshalFunc
@@ -90,4 +90,11 @@ func NewParser(opts ...SetOpt) Parser {
 		opt(p)
 	}
 	return p
+}
+func newParserWithOption(opt *TagOption) *parser {
+	return &parser{
+		tagOpt:  opt,
+		logger:  log.New(os.Stdout, "", log.Llongfile),
+		encoder: JSONEncoder,
+	}
 }

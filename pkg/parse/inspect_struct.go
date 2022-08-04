@@ -34,12 +34,12 @@ func (p *parser) InspectStruct(c any) error {
 
 func (p *parser) setDefaultStruct(v reflect.Value, parent *parseField) error {
 	// struct
-	fields, allFields, err := inspectField(v, parent, p.tagOpt)
+	_, allFields, err := inspectField(v, parent, p.tagOpt)
 	if err != nil {
 		return err
 	}
-	p.fields = fields
-	p.allFields = allFields
+	// p.fields = fields
+	// p.allFields = allFields
 	return p.setDefaults(allFields)
 }
 
@@ -147,7 +147,6 @@ func (p *parser) setDefaults(allFields []*parseField) error {
 		if !opt.value.CanInterface() {
 			continue // 不能修改值
 		}
-
 		if !isZero(opt.value) {
 			// The value has already set before calling goconfig.  In this case,
 			// we don't touch it aymore.

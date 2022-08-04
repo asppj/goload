@@ -50,7 +50,8 @@ type (
 		OptionTag  string // 选项,
 		DescTag    string // 描述，html显示;
 		// Option     string // 选项，只能选择其中某些值 html显示 Usage: oneof=red green \n oneof=5 7 9
-		ValidTag string // 验证 github.com/go-playground/validator/v10
+		ValidTag   string // 验证 github.com/go-playground/validator/v10
+		parseField *parseField
 	}
 	// TagValue 值
 	TagValue struct {
@@ -65,7 +66,7 @@ type (
 
 func NewDefaultTagOpt() *TagOption {
 	return &TagOption{
-		IdentTag:   ID,
+		IdentTag:   YAML,
 		DefaultTag: DefaultTag,
 		DescTag:    DescTag,
 		ValidTag:   ValidTag,
@@ -89,4 +90,40 @@ type parseField struct {
 // joined by dots.
 func (o parseField) fullID() string {
 	return strings.Join(o.fullIDParts, ".")
+}
+func (t *TagOption) clone() *TagOption {
+	return &TagOption{
+		IdentTag:   t.IdentTag,
+		DefaultTag: t.DefaultTag,
+		OptionTag:  t.OptionTag,
+		DescTag:    t.DescTag,
+		ValidTag:   t.ValidTag,
+	}
+}
+func (t *TagOption) parseFromField(field reflect.StructField) *TagOption {
+	resultField := &parseField{}
+	ident := field.Tag.Get(t.IdentTag)
+	if len(ident) == 0 {
+		ident = strings.ToLower(field.Name)
+	}
+	resultField.tagValue.Ident = ident
+	resultField.tagValue.Describe = field.Tag.Get(t.DescTag)
+	resultField.tagValue.Option = field.Tag.Get(t.OptionTag)
+	resultField.tagValue.Valid = field.Tag.Get(t.ValidTag)
+	resultField.tagValue.Default, resultField.tagValue.DefaultSet = field.Tag.Lookup(t.DefaultTag)
+	// return resultField
+	res := t.clone()
+	res.parseField = resultField
+	return res
+}
+
+func (t *TagOption) getDefault() []string {
+	if t == nil || t.parseField == nil {
+		return []string{}
+	}
+	vals, err := readAsCSV(t.parseField.tagValue.Default)
+	if err != nil {
+		panic(err)
+	}
+	return vals
 }
