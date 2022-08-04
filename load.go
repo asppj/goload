@@ -10,6 +10,7 @@ import (
 )
 
 type TagOption struct {
+	fullTag  string
 	TagName  string
 	TagValue *string
 }
@@ -29,11 +30,13 @@ func (t *TagOption) parseFromField(field reflect.StructField) *TagOption {
 	value, ok := field.Tag.Lookup(t.TagName)
 	if ok {
 		return &TagOption{
+			fullTag:  value,
 			TagName:  t.TagName,
 			TagValue: &value,
 		}
 	}
 	return &TagOption{
+		fullTag:  value,
 		TagName:  t.TagName,
 		TagValue: nil,
 	}
@@ -89,9 +92,14 @@ func parseSlice(v reflect.Value, option *TagOption) error {
 	for i := 0; i < v.Len(); i++ {
 		indexValue := v.Index(i)
 		if option != nil && option.TagValue != nil {
+			var tagValue *string
+			if len(vals) > i {
+				tagValue = &vals[i]
+			}
 			opt := &TagOption{
 				TagName:  option.TagName,
-				TagValue: &vals[i],
+				fullTag:  option.fullTag,
+				TagValue: tagValue,
 			}
 			if err := parseValue(indexValue, opt); err != nil {
 				return err
