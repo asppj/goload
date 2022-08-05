@@ -65,13 +65,13 @@ func parseStruct(v reflect.Value, option *TagOption) error {
 	for i := 0; i < v.NumField(); i++ {
 		fieldValue := v.Field(i)
 		field := v.Type().Field(i)
+		if !fieldValue.CanSet() {
+			continue
+		}
 		if err := isSupportedType(field.Type); err != nil {
 			return fmt.Errorf(
 				"type of field %+v (%+v) is not supported: %w",
 				field.Name, field.Type, err)
-		}
-		if !fieldValue.CanSet() {
-			continue
 		}
 		tagOption := option.parseFromField(field)
 		// if fieldValue.IsZero() {
