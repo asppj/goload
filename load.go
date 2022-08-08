@@ -129,8 +129,8 @@ func parseMap(v reflect.Value, option *TagOption) error {
 }
 
 func parsePointer(v reflect.Value, option *TagOption) error {
-	value := reflect.Zero(v.Type().Elem())
-	v.Elem().Set(value)
+	// value := reflect.Zero(v.Type().Elem())
+	// v.Elem().Set(value)
 	if err := parseValue(v.Elem(), option); err != nil {
 		return err
 	}
