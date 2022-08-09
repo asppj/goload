@@ -13,6 +13,7 @@ type TagOption struct {
 	fullTag  reflect.StructTag
 	TagName  string
 	TagValue *string
+	setZero  bool
 }
 
 func (t *TagOption) getDefault() []string {
@@ -113,7 +114,7 @@ func parseSlice(v reflect.Value, option *TagOption) error {
 }
 
 func parseMap(v reflect.Value, option *TagOption) error {
-	if v.Len() > 0 {
+	if option.setZero && v.Len() > 0 {
 		iter := v.MapRange()
 		for iter.Next() {
 			indexValue := iter.Value()
@@ -181,12 +182,14 @@ func setZeroType(v reflect.Value, option *TagOption) {
 		}
 		zero := reflect.New(v.Type().Elem())
 		v.Set(zero)
+		option.setZero = true
 	case reflect.Struct:
 		if !v.IsZero() {
 			return
 		}
 		zero := reflect.New(v.Type())
 		v.Set(reflect.Indirect(zero))
+		option.setZero = true
 	case reflect.Array, reflect.Slice:
 		if !v.IsZero() {
 			return
@@ -199,6 +202,7 @@ func setZeroType(v reflect.Value, option *TagOption) {
 		// 	}
 		// }
 		v.Set(slice)
+		option.setZero = true
 	case reflect.Map:
 		if !v.IsZero() {
 			return
@@ -222,12 +226,14 @@ func setZeroType(v reflect.Value, option *TagOption) {
 			}
 		}
 		v.Set(m)
+		option.setZero = true
 	default:
 		if !v.IsZero() {
 			return
 		}
 		zero := reflect.Zero(v.Type())
 		v.Set(zero)
+		option.setZero = true
 	}
 }
 
@@ -237,8 +243,6 @@ func zeroPointValue(tv reflect.Value) reflect.Value {
 	if subTy.Kind() == reflect.Pointer {
 		ele := zeroType(subTy)
 		tv.Elem().Set(ele)
-	}
-	if tv.Elem().Type().Kind() == reflect.Struct {
 	}
 	return tv
 }
